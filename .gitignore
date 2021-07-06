@@ -1,0 +1,7 @@
+obj/
+obj_bonus/
+client
+client_bonus
+server
+server_bonus
+*.swp
