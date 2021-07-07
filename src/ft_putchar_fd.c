@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/08 00:32:36 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/08 00:57:35 by hyechoi          ###   ########.fr       */
+/*   Created: 2020/10/05 19:34:27 by hyechoi           #+#    #+#             */
+/*   Updated: 2021/07/08 00:42:58 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	main(void)
+void	ft_putchar_fd(char c, int fd)
 {
-	pid_t	pid_server;
-
-	pid_server = getpid();
-	ft_putnbr_fd(pid_server, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	while (TRUE)
-		sleep(1);
-	return (EXIT_SUCCESS);
+	write(fd, &c, 1);
 }

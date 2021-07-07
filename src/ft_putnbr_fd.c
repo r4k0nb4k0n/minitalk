@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/08 00:32:36 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/08 00:57:35 by hyechoi          ###   ########.fr       */
+/*   Created: 2020/10/05 19:45:35 by hyechoi           #+#    #+#             */
+/*   Updated: 2021/07/08 00:40:46 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	main(void)
+void	ft_putnbr_fd(int n, int fd)
 {
-	pid_t	pid_server;
+	unsigned int	un;
 
-	pid_server = getpid();
-	ft_putnbr_fd(pid_server, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	while (TRUE)
-		sleep(1);
-	return (EXIT_SUCCESS);
+	un = n;
+	if (n < 0)
+		un = -n;
+	if (-9 <= n && n <= 9)
+	{
+		if (n < 0)
+			ft_putchar_fd('-', fd);
+		ft_putchar_fd(un + '0', fd);
+		return ;
+	}
+	ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd((un % 10) + '0', fd);
 }

@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/07 00:24:40 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/08 00:42:34 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 **	Include header files in need.
 **	<unistd.h>
 **	.. ssize_t write(int filedes, const void *buf, size_t nbyte);
+**	.. pid_t getpid(void);
 **	<stdlib.h>
 **	.. void exit(int status);
 **	.. EXIT_SUCCESS
@@ -86,5 +87,23 @@ void	ft_print_error(char *prefix, char *msg);
 void	ft_exit_if_null(void *target);
 void	ft_exit_with_syserr(char *prefix);
 void	ft_exit_with_error_msg(char *prefix, char *msg);
+
+/*
+**	ft_putchar_fd.c
+*/
+
+void	ft_putchar_fd(char c, int fd);
+
+/*
+**	ft_putstr_fd.c
+*/
+
+void	ft_putstr_fd(char *s, int fd);
+
+/*
+**	ft_putnbr_fd.c
+*/
+
+void	ft_putnbr_fd(int n, int fd);
 
 #endif
