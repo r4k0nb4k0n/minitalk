@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/08 00:56:27 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/09 19:56:13 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ SRC_DIR = ./src
 SRC_FILE_SERVER = ft_strlen.c\
 					ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c\
 					server.c
-SRC_FILE_CLIENT = client.c
+SRC_FILE_CLIENT = ft_strlen.c ft_character.c\
+					ft_error.c ft_check_if_str_is_int.c\
+					client.c
 SRCS_SERVER = $(addprefix $(SRC_DIR)/, $(SRC_FILE_SERVER))
 SRCS_CLIENT = $(addprefix $(SRC_DIR)/, $(SRC_FILE_CLIENT))
 OBJ_DIR = ./obj
@@ -33,11 +35,11 @@ INC = -I$(INC_DIR)
 
 all: welcome $(NAME) $(NAME_CLIENT)
 
-$(NAME): $(OBJ_DIR) $(OBJS_SERVER)
+$(NAME): macro_flag_server $(OBJ_DIR) $(OBJS_SERVER)
 	@echo "\n\033[1;37;44m___Generate $@.___\033[0m\n"
 	$(CC) $(CFLAGS) -o $@ $(OBJS_SERVER)
 
-$(NAME_CLIENT): $(OBJ_DIR) $(OBJS_CLIENT)
+$(NAME_CLIENT): macro_flag_client $(OBJ_DIR) $(OBJS_CLIENT)
 	@echo "\n\033[1;37;44m___Generate $@.___\033[0m\n"
 	$(CC) $(CFLAGS) -o $@ $(OBJS_CLIENT)
 
@@ -65,4 +67,4 @@ welcome:
 
 # Phony target that is not really name of file;
 # rather it is just a name of recipe.
-.PHONY: all clean fclean re welcome
+.PHONY: all clean fclean re welcome macro_flag_server macro_flag_client

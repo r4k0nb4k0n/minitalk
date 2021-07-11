@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/08 00:42:34 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/12 04:19:57 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 **	<unistd.h>
 **	.. ssize_t write(int filedes, const void *buf, size_t nbyte);
 **	.. pid_t getpid(void);
+**	.. int pause(void);
 **	<stdlib.h>
 **	.. void exit(int status);
 **	.. EXIT_SUCCESS
@@ -40,11 +41,16 @@
 **	Define msg macros in need.
 */
 
+# define COLON_SPACE ": "
 # define PREFIX_SERVER "server"
 # define PREFIX_CLIENT "client"
 # define USAGE_CLIENT "usage: ./client server_PID string_that_should_be_sent\n"
 # define ERR_INVAL_PID_SERVER "Invalid server PID\n"
-# define ERR_PENDING_RESP "Pending response from server\n"
+# define ERR_PENDING_RESP "Pending response from server...\n"
+# define ERR_FAILED_SIGNAL "Failed to send signal\n"
+# define ERR_FAILED_GET_ACK "Failed to get ACK from server\n"
+# define INFO_CONN_ESTAB "Connection established\n"
+# define INFO_CONN_CLOSED "Connection closed\n"
 
 /*
 **	Define macros in need.
@@ -52,6 +58,8 @@
 
 # define TRUE 1
 # define FALSE 0
+# define THRESHOLD_SEC 4
+# define MAX_RETRY 2
 
 /*
 **	ft_strlen.c
@@ -84,8 +92,6 @@ int		ft_atoi(const char *nptr);
 */
 
 void	ft_print_error(char *prefix, char *msg);
-void	ft_exit_if_null(void *target);
-void	ft_exit_with_syserr(char *prefix);
 void	ft_exit_with_error_msg(char *prefix, char *msg);
 
 /*

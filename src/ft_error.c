@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 17:46:54 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/06 20:15:07 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/09 19:55:13 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,6 @@ void	ft_print_error(char *prefix, char *msg)
 	}
 	if (msg)
 		write(STDERR_FILENO, msg, ft_strlen(msg));
-}
-
-/*
-**	Exit if the parameter `target` is NULL, which means NOT malloced normally.
-**	Exit with printing error message ERR_MALLOC.
-**
-**	@param	void	*target	The parameter to check if NULL.
-**	@return	void			Nothing.
-*/
-
-void	ft_exit_if_null(void *target)
-{
-	if (!target)
-	{
-		ft_print_error(ERR_PREFIX, ERR_MALLOC);
-		exit(EXIT_FAILURE);
-	}
-}
-
-/*
-**	Exit with system error message.
-**
-**	@param	char	*prefix	The prefix string.
-**	@return	void			Nothing.
-*/
-
-void	ft_exit_with_syserr(char *prefix)
-{
-	perror(prefix);
-	exit(EXIT_FAILURE);
 }
 
 /*
