@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/12 04:19:57 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/14 21:27:28 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@
 # define ERR_PENDING_RESP "Pending response from server...\n"
 # define ERR_FAILED_SIGNAL "Failed to send signal\n"
 # define ERR_FAILED_GET_ACK "Failed to get ACK from server\n"
+# define ERR_FAILED_FIND_SESS "Failed to find session\n"
+# define ERR_SIGACTION "Failed to sigaction()\n"
+# define ERR_SIGNAL "Failed to signal()\n"
+# define ERR_MALLOC "Failed to malloc()\n"
 # define INFO_CONN_ESTAB "Connection established\n"
 # define INFO_CONN_CLOSED "Connection closed\n"
 
@@ -60,12 +64,99 @@
 # define FALSE 0
 # define THRESHOLD_SEC 4
 # define MAX_RETRY 2
+# define GAP_MICROSEC 250
+
+/*
+**	Define struct list node.
+*/
+
+typedef struct		s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
+/*
+**	ft_lst*.c
+*/
+
+t_list				*ft_lstnew(void *content);
+void				ft_lstadd_front(t_list **lst, t_list *new);
+void				ft_lstdelone(t_list *lst, void (*del)(void *));
+void				ft_lstclear(t_list **lst, void (*del)(void *));
+
+/*
+**	Define struct session.
+*/
+
+typedef struct		s_session
+{
+	pid_t			pid;
+	int				status;
+	char			*msg;
+	char			buf;
+}					t_session;
+
+/*
+**	Define status macro of struct session.
+*/
+
+# define SESS_STATUS_RECV 0
+# define SESS_STATUS_WAIT 1
+
+/*
+**	ft_init_session.c
+*/
+
+int		ft_init_session(t_list **sessions, pid_t pid);
+
+/*
+**	ft_free_session.c
+*/
+
+void	ft_free_session(void *session);
+
+/*
+**	ft_lstfind_session_pid.c
+*/
+
+t_list	*ft_lstfind_session_pid(t_list *s, pid_t pid);
+
+/*
+**	ft_lstdelone_session_pid.c
+*/
+
+void	ft_lstdelone_session_pid(t_list **sessions, pid_t pid);
+
+/*
+**	ft_append_buf_to_msg_session.c
+*/
+
+int		ft_append_buf_to_msg_session(t_session *session);
 
 /*
 **	ft_strlen.c
 */
 
 int		ft_strlen(char *s);
+
+/*
+**	ft_strlcpy.c
+*/
+
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+
+/*
+**	ft_strdup.c
+*/
+
+char	*ft_strdup(char *str);
+
+/*
+**	ft_strjoin.c
+*/
+
+char	*ft_strjoin(char *s1, char *s2);
 
 /*
 **	ft_character.c

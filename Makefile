@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/09 19:56:13 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/14 05:33:19 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,17 @@ NAME_CLIENT = client
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = ./src
-SRC_FILE_SERVER = ft_strlen.c\
+SRC_FILE_SERVER = ft_strlen.c ft_character.c ft_strdup.c ft_strjoin.c\
+					ft_strlcpy.c\
 					ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c\
+					ft_lstnew.c ft_lstadd_front.c ft_lstdelone.c ft_lstclear.c\
+					ft_init_session.c ft_free_session.c\
+					ft_lstfind_session_pid.c ft_lstdelone_session_pid.c\
+					ft_append_buf_to_msg_session.c\
+					ft_error.c\
 					server.c
 SRC_FILE_CLIENT = ft_strlen.c ft_character.c\
+					ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c\
 					ft_error.c ft_check_if_str_is_int.c\
 					client.c
 SRCS_SERVER = $(addprefix $(SRC_DIR)/, $(SRC_FILE_SERVER))
