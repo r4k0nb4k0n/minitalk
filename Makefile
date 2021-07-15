@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/16 02:47:31 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/16 06:35:03 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,11 @@ INC = -I$(INC_DIR)
 
 all: welcome $(NAME) $(NAME_CLIENT)
 
-$(NAME): macro_flag_server $(OBJ_DIR) $(OBJS_SERVER)
+$(NAME): $(OBJ_DIR) $(OBJS_SERVER)
 	@echo "\n\033[1;37;44m___Generate $@.___\033[0m\n"
 	$(CC) $(CFLAGS) -o $@ $(OBJS_SERVER)
 
-$(NAME_CLIENT): macro_flag_client $(OBJ_DIR) $(OBJS_CLIENT)
+$(NAME_CLIENT): $(OBJ_DIR) $(OBJS_CLIENT)
 	@echo "\n\033[1;37;44m___Generate $@.___\033[0m\n"
 	$(CC) $(CFLAGS) -o $@ $(OBJS_CLIENT)
 
@@ -76,4 +76,4 @@ welcome:
 
 # Phony target that is not really name of file;
 # rather it is just a name of recipe.
-.PHONY: all clean fclean re welcome macro_flag_server macro_flag_client
+.PHONY: all clean fclean re welcome
