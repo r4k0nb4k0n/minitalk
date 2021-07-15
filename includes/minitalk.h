@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/14 21:27:28 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 19:28:42 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,12 @@ void	ft_lstdelone_session_pid(t_list **sessions, pid_t pid);
 */
 
 int		ft_append_buf_to_msg_session(t_session *session);
+
+/*
+**	ft_toggle_session_in_server.c
+*/
+
+void	ft_toggle_session_in_server(pid_t pid_server, char *done_msg);
 
 /*
 **	ft_strlen.c

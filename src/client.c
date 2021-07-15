@@ -6,16 +6,21 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:07:53 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/14 18:49:36 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 20:07:43 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+t_session	g_session;
+char		*g_msg_last;
+
 /*
 **	Handler of SIGUSR1.
 **
-**	@param	int	signo
+**	@param	int			signo
+**	@param	siginfo_t	*siginfo
+**	@param	void		*data
 **	@return	void		Nothing.
 */
 
@@ -24,72 +29,87 @@ void	ft_handle_sigusr1(int signo, siginfo_t *siginfo, void *data)
 	(void)signo;
 	(void)siginfo;
 	(void)data;
-}
 
-void	ft_install_sigaction(void)
-{
-	struct sigaction	s_sa_sigusr1;
-
-	s_sa_sigusr1.sa_flags = SA_RESTART | SA_NODEFER;
-	s_sa_sigusr1.sa_sigaction = &ft_handle_sigusr1;
-	sigemptyset(&(s_sa_sigusr1.sa_mask));
-	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR1);
-	if (sigaction(SIGUSR1, &s_sa_sigusr1, NULL) < 0)
-		ft_exit_with_error_msg(PREFIX_SERVER, ERR_SIGACTION);
+	if (g_session.status == SESS_STATUS_WAIT)
+	{
+		if (*(g_session.msg))
+			g_session.status = SESS_STATUS_RECV;
+	}
+	else if (g_session.status == SESS_STATUS_RECV)
+	{
+		if (*(g_session.msg) == '\0' && g_session.msg != g_msg_last)
+			(g_session.msg)++;
+		if (g_session.msg == g_msg_last)
+			g_session.status = SESS_STATUS_WAIT;
+	}
 }
 
 /*
-**	Toggle connection with server.
+**	Handler of SIGUSR2.
 **
-**	@param	pid_t	pid_server
-**	@param	char	*done_msg	The message to print when done.
-**	@return	void				Nothing.
+**	@param	int			signo
+**	@param	siginfo_t	*siginfo
+**	@param	void		*data
+**	@return	void		Nothing.
 */
 
-void	ft_toggle_connection(pid_t pid_server, char *done_msg)
+void	ft_handle_sigusr2(int signo, siginfo_t *siginfo, void *data)
 {
-	int	res;
-	int	i;
+	(void)signo;
+	(void)siginfo;
+	(void)data;
 
-	i = 0;
-	while (i < MAX_RETRY)
-	{
-		res = kill(pid_server, SIGUSR1);
-		if (res < 0)
-			ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
-		if (usleep(GAP_MICROSEC) < 0)
-			break;
-		ft_putstr_fd(ERR_PENDING_RESP, STDERR_FILENO);
-		i++;
-	}
-	if (i >= MAX_RETRY)
-		ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_GET_ACK);
-	ft_putstr_fd(done_msg, STDOUT_FILENO);
+	if (*(g_session.msg))
+		*(g_session.msg) -= 1;
+}
+
+void	ft_install_sigactions(void)
+{
+	struct sigaction	s_sa_sigusr1;
+	struct sigaction	s_sa_sigusr2;
+
+	s_sa_sigusr1.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr1.sa_sigaction = &ft_handle_sigusr1;
+	sigemptyset(&(s_sa_sigusr1.sa_mask));
+	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR1);
+	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR2);
+	if (sigaction(SIGUSR1, &s_sa_sigusr1, NULL) < 0)
+		ft_exit_with_error_msg(PREFIX_SERVER, ERR_SIGACTION);
+	s_sa_sigusr2.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr2.sa_sigaction = &ft_handle_sigusr2;
+	sigemptyset(&(s_sa_sigusr2.sa_mask));
+	sigaddset(&(s_sa_sigusr2.sa_mask), SIGUSR1);
+	sigaddset(&(s_sa_sigusr2.sa_mask), SIGUSR2);
+	if (sigaction(SIGUSR2, &s_sa_sigusr2, NULL) < 0)
+		ft_exit_with_error_msg(PREFIX_SERVER, ERR_SIGACTION);
 }
 
 /*
 **	Send the string to server with signal.
 */
 
-void	ft_send_str_with_signal(pid_t pid_server, char *s)
+void	ft_send_str_with_signal(void)
 {
-	while (*s)
+	char	*p;
+
+	while (*(g_session.msg))
 	{
-		while (*s)
+		while (*(g_session.msg))
 		{
-			if (kill(pid_server, SIGUSR2) < 0)
+			if (kill(g_session.pid, SIGUSR2) < 0)
 				ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
-			if (usleep(GAP_MICROSEC) < 0)
-				(*s)--;
+			usleep(GAP_MICROSEC);
 		}
-		while (TRUE)
+		p = g_session.msg;
+		while (p == g_session.msg)
 		{
-			if (kill(pid_server, SIGUSR1) < 0)
+			if (kill(g_session.pid, SIGUSR1) < 0)
 				ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
-			if (usleep(GAP_MICROSEC) < 0)
-				break ;
+			usleep(GAP_MICROSEC);
 		}
-		s++;
+		/*if (kill(g_session.pid, SIGUSR1) < 0)
+			ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
+		usleep(GAP_MICROSEC);*/
 	}
 }
 
@@ -108,8 +128,8 @@ void	ft_send_str_with_signal(pid_t pid_server, char *s)
 
 int	main(int argc, char **argv)
 {
-	pid_t		pid_server;
-	char		*s;
+	pid_t	pid_server;
+	char	*s;
 
 	if (argc != 3 || !ft_check_if_str_is_int(argv[1]))
 		ft_exit_with_error_msg(NULL, USAGE_CLIENT);
@@ -117,10 +137,15 @@ int	main(int argc, char **argv)
 	if (pid_server <= 0)
 		ft_exit_with_error_msg(PREFIX_CLIENT, ERR_INVAL_PID_SERVER);
 	s = argv[2];
-	ft_install_sigaction();
-	ft_toggle_connection(pid_server, INFO_CONN_ESTAB);
-	ft_send_str_with_signal(pid_server, s);
-	ft_toggle_connection(pid_server, INFO_CONN_CLOSED);
-	signal(SIGUSR1, SIG_DFL);
+	g_session.pid = pid_server;
+	g_session.status = SESS_STATUS_WAIT;
+	g_session.msg = s;
+	g_msg_last = s;
+	while (*g_msg_last)
+		g_msg_last++;
+	ft_install_sigactions();
+	ft_toggle_session_in_server(pid_server, INFO_CONN_ESTAB);
+	ft_send_str_with_signal();
+	ft_toggle_session_in_server(pid_server, INFO_CONN_CLOSED);
 	return (EXIT_SUCCESS);
 }

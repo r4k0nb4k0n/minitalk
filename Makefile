@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/14 05:33:19 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/15 17:54:29 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC_FILE_SERVER = ft_strlen.c ft_character.c ft_strdup.c ft_strjoin.c\
 					ft_error.c\
 					server.c
 SRC_FILE_CLIENT = ft_strlen.c ft_character.c\
+					ft_toggle_session_in_server.c\
 					ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c\
 					ft_error.c ft_check_if_str_is_int.c\
 					client.c

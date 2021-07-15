@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 00:32:36 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/14 21:11:24 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 19:27:41 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_handle_sigusr2(int signo, siginfo_t *siginfo, void *data)
 		return ;
 	if (((t_session *)(s->content))->status == SESS_STATUS_WAIT)
 		((t_session *)(s->content))->status = SESS_STATUS_RECV;
-	if (kill(siginfo->si_pid, SIGUSR1) < 0)
+	if (kill(siginfo->si_pid, SIGUSR2) < 0)
 		ft_exit_with_error_msg(PREFIX_SERVER, ERR_FAILED_SIGNAL);
 	((t_session *)(s->content))->buf += 1;
 }
@@ -96,6 +96,6 @@ int	main(void)
 	g_sessions = NULL;
 	ft_install_sigactions();
 	while (TRUE)
-		usleep(GAP_MICROSEC);
+		pause();
 	return (EXIT_SUCCESS);
 }
