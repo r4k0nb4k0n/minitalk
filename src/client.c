@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:07:53 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 20:24:58 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/16 03:52:05 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	ft_handle_sigusr1(int signo, siginfo_t *siginfo, void *data)
 		if (*(g_session.msg) == '\0' && g_session.msg != g_msg_last)
 			(g_session.msg)++;
 		if (g_session.msg == g_msg_last)
+		{
 			g_session.status = SESS_STATUS_WAIT;
+			ft_putstr_fd(INFO_SERVER_GOOD_COPY_STR, STDOUT_FILENO);
+		}
 	}
 }
 
@@ -66,14 +69,14 @@ void	ft_install_sigactions(void)
 	struct sigaction	s_sa_sigusr1;
 	struct sigaction	s_sa_sigusr2;
 
-	s_sa_sigusr1.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr1.sa_flags = SA_SIGINFO | SA_RESTART;
 	s_sa_sigusr1.sa_sigaction = &ft_handle_sigusr1;
 	sigemptyset(&(s_sa_sigusr1.sa_mask));
 	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR1);
 	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR2);
 	if (sigaction(SIGUSR1, &s_sa_sigusr1, NULL) < 0)
 		ft_exit_with_error_msg(PREFIX_SERVER, ERR_SIGACTION);
-	s_sa_sigusr2.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr2.sa_flags = SA_SIGINFO | SA_RESTART;
 	s_sa_sigusr2.sa_sigaction = &ft_handle_sigusr2;
 	sigemptyset(&(s_sa_sigusr2.sa_mask));
 	sigaddset(&(s_sa_sigusr2.sa_mask), SIGUSR1);
@@ -126,7 +129,7 @@ int	main(int argc, char **argv)
 	pid_t	pid_server;
 	char	*s;
 
-	if (argc != 3 || !ft_check_if_str_is_int(argv[1]))
+	if (argc != 3 || !ft_check_if_str_is_int(argv[1]) || argv[2][0] == '\0')
 		ft_exit_with_error_msg(NULL, USAGE_CLIENT);
 	pid_server = atoi(argv[1]);
 	if (pid_server <= 0)

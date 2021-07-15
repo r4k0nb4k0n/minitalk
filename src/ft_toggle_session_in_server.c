@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 17:52:28 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 20:23:48 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/16 01:48:31 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,17 @@
 
 void	ft_toggle_session_in_server(pid_t pid_server, char *done_msg)
 {
-	int	res;
-	int	i;
-
-	i = 0;
-	while (i < MAX_RETRY)
+	while (TRUE)
 	{
-		res = kill(pid_server, SIGUSR1);
-		if (res < 0)
+		if (kill(pid_server, SIGUSR1) < 0)
 			ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
+		ft_putstr_fd(INFO_SENT_SYN1_SERVER, STDOUT_FILENO);
 		if (usleep(GAP_MICROSEC) < 0)
+		{
+			ft_putstr_fd(INFO_RECV_ACK1_SERVER, STDOUT_FILENO);
 			break ;
+		}
 		ft_putstr_fd(ERR_PENDING_RESP, STDERR_FILENO);
-		i++;
 	}
-	if (i >= MAX_RETRY)
-		ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_GET_ACK);
 	ft_putstr_fd(done_msg, STDOUT_FILENO);
 }

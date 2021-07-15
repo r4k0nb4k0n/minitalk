@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init_session.c                                  :+:      :+:    :+:   */
+/*   ft_put_client_msg.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 04:28:05 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/16 02:20:30 by hyechoi          ###   ########.fr       */
+/*   Created: 2021/07/16 02:43:35 by hyechoi           #+#    #+#             */
+/*   Updated: 2021/07/16 02:46:33 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_init_session(t_list **sessions, pid_t pid)
+void	ft_put_client_msg(pid_t pid, char *msg)
 {
-	t_session	*session;
-	t_list		*new;
-
-	session = malloc(sizeof(t_session));
-	if (!session)
-		return (-1);
-	session->pid = pid;
-	session->status = SESS_STATUS_WAIT;
-	session->msg = ft_strdup("");
-	session->buf = 0;
-	new = ft_lstnew((void *)session);
-	if (!new || !(session->msg))
-	{
-		ft_free_session(session);
-		return (-1);
-	}
-	ft_lstadd_front(sessions, new);
-	return (0);
+	ft_putnbr_fd(pid, STDOUT_FILENO);
+	ft_putstr_fd(COLON_SPACE, STDOUT_FILENO);
+	ft_putstr_fd(msg, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

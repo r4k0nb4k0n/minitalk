@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 20:22:44 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/16 02:47:15 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@
 # define ERR_SIGACTION "Failed to sigaction()\n"
 # define ERR_SIGNAL "Failed to signal()\n"
 # define ERR_MALLOC "Failed to malloc()\n"
+# define INFO_SENT_SYN1_SERVER "Sent SYN1 to server\n"
+# define INFO_RECV_ACK1_SERVER "Received ACK1 from server\n"
 # define INFO_CONN_ESTAB "Connection established\n"
 # define INFO_CONN_CLOSED "Connection closed\n"
+# define INFO_SERVER_GOOD_COPY_STR "Server says 'good copy that string'\n"
 
 /*
 **	Define macros in need.
@@ -140,6 +143,12 @@ int					ft_append_buf_to_msg_session(t_session *session);
 
 void				ft_toggle_session_in_server(pid_t pid_server,
 						char *done_msg);
+
+/*
+**	ft_put_client_msg.c
+*/
+
+void				ft_put_client_msg(pid_t pid, char *msg);
 
 /*
 **	ft_strlen.c

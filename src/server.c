@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 00:32:36 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 19:27:41 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/16 04:06:52 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 t_list	*g_sessions;
 
-void	ft_handle_sigusr1(int signo, siginfo_t *siginfo, void *data)
+void	ft_handle_sigusr1(int signo, siginfo_t *si, void *data)
 {
 	t_list	*s;
 
-	(void)signo;
-	(void)data;
-	s = ft_lstfind_session_pid(g_sessions, siginfo->si_pid);
+	if (signo < 0 || !data || si->si_pid == 0 || si->si_pid == 1)
+		return ;
+	s = ft_lstfind_session_pid(g_sessions, si->si_pid);
 	if (!s)
 	{
-		if (ft_init_session(&g_sessions, siginfo->si_pid) < 0)
+		if (ft_init_session(&g_sessions, si->si_pid) < 0)
 			ft_exit_with_error_msg(PREFIX_SERVER, ERR_MALLOC);
 	}
 	else if (((t_session *)(s->content))->status == SESS_STATUS_RECV)
@@ -32,27 +32,30 @@ void	ft_handle_sigusr1(int signo, siginfo_t *siginfo, void *data)
 		if (ft_append_buf_to_msg_session((t_session *)(s->content)) < 0)
 			ft_exit_with_error_msg(PREFIX_SERVER, ERR_MALLOC);
 	}
-	else if (((t_session *)(s->content))->status == SESS_STATUS_WAIT)
+	else if (((t_session *)(s->content))->status == SESS_STATUS_WAIT &&
+		*(((t_session *)(s->content))->msg) != '\0')
 	{
-		ft_putstr_fd(((t_session *)(s->content))->msg, STDOUT_FILENO);
-		ft_lstdelone_session_pid(&g_sessions, siginfo->si_pid);
+		ft_put_client_msg(si->si_pid, ((t_session *)(s->content))->msg);
+		ft_lstdelone_session_pid(&g_sessions, si->si_pid);
 	}
-	if (kill(siginfo->si_pid, SIGUSR1) < 0)
+	if (kill(si->si_pid, SIGUSR1) < 0)
 		ft_exit_with_error_msg(PREFIX_SERVER, ERR_FAILED_SIGNAL);
 }
 
-void	ft_handle_sigusr2(int signo, siginfo_t *siginfo, void *data)
+void	ft_handle_sigusr2(int signo, siginfo_t *si, void *data)
 {
 	t_list	*s;
 
 	(void)signo;
 	(void)data;
-	s = ft_lstfind_session_pid(g_sessions, siginfo->si_pid);
+	if (si->si_pid == 0 || si->si_pid == 1)
+		return ;
+	s = ft_lstfind_session_pid(g_sessions, si->si_pid);
 	if (!s)
 		return ;
 	if (((t_session *)(s->content))->status == SESS_STATUS_WAIT)
 		((t_session *)(s->content))->status = SESS_STATUS_RECV;
-	if (kill(siginfo->si_pid, SIGUSR2) < 0)
+	if (kill(si->si_pid, SIGUSR2) < 0)
 		ft_exit_with_error_msg(PREFIX_SERVER, ERR_FAILED_SIGNAL);
 	((t_session *)(s->content))->buf += 1;
 }
@@ -68,14 +71,14 @@ void	ft_install_sigactions(void)
 	struct sigaction	s_sa_sigusr1;
 	struct sigaction	s_sa_sigusr2;
 
-	s_sa_sigusr1.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr1.sa_flags = SA_SIGINFO | SA_RESTART;
 	s_sa_sigusr1.sa_sigaction = &ft_handle_sigusr1;
 	sigemptyset(&(s_sa_sigusr1.sa_mask));
 	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR1);
 	sigaddset(&(s_sa_sigusr1.sa_mask), SIGUSR2);
 	if (sigaction(SIGUSR1, &s_sa_sigusr1, NULL) < 0)
 		ft_exit_with_error_msg(PREFIX_SERVER, ERR_SIGACTION);
-	s_sa_sigusr2.sa_flags = SA_SIGINFO | SA_RESTART | SA_NODEFER;
+	s_sa_sigusr2.sa_flags = SA_SIGINFO | SA_RESTART;
 	s_sa_sigusr2.sa_sigaction = &ft_handle_sigusr2;
 	sigemptyset(&(s_sa_sigusr2.sa_mask));
 	sigaddset(&(s_sa_sigusr2.sa_mask), SIGUSR1);

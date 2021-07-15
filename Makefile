@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/15 17:54:29 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/16 02:47:31 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC_FILE_SERVER = ft_strlen.c ft_character.c ft_strdup.c ft_strjoin.c\
 					ft_init_session.c ft_free_session.c\
 					ft_lstfind_session_pid.c ft_lstdelone_session_pid.c\
 					ft_append_buf_to_msg_session.c\
+					ft_put_client_msg.c\
 					ft_error.c\
 					server.c
 SRC_FILE_CLIENT = ft_strlen.c ft_character.c\
