@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 19:28:42 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 20:22:44 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 **	Define struct list node.
 */
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
@@ -89,7 +89,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 **	Define struct session.
 */
 
-typedef struct		s_session
+typedef struct s_session
 {
 	pid_t			pid;
 	int				status;
@@ -108,105 +108,106 @@ typedef struct		s_session
 **	ft_init_session.c
 */
 
-int		ft_init_session(t_list **sessions, pid_t pid);
+int					ft_init_session(t_list **sessions, pid_t pid);
 
 /*
 **	ft_free_session.c
 */
 
-void	ft_free_session(void *session);
+void				ft_free_session(void *session);
 
 /*
 **	ft_lstfind_session_pid.c
 */
 
-t_list	*ft_lstfind_session_pid(t_list *s, pid_t pid);
+t_list				*ft_lstfind_session_pid(t_list *s, pid_t pid);
 
 /*
 **	ft_lstdelone_session_pid.c
 */
 
-void	ft_lstdelone_session_pid(t_list **sessions, pid_t pid);
+void				ft_lstdelone_session_pid(t_list **sessions, pid_t pid);
 
 /*
 **	ft_append_buf_to_msg_session.c
 */
 
-int		ft_append_buf_to_msg_session(t_session *session);
+int					ft_append_buf_to_msg_session(t_session *session);
 
 /*
 **	ft_toggle_session_in_server.c
 */
 
-void	ft_toggle_session_in_server(pid_t pid_server, char *done_msg);
+void				ft_toggle_session_in_server(pid_t pid_server,
+						char *done_msg);
 
 /*
 **	ft_strlen.c
 */
 
-int		ft_strlen(char *s);
+int					ft_strlen(char *s);
 
 /*
 **	ft_strlcpy.c
 */
 
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t				ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 /*
 **	ft_strdup.c
 */
 
-char	*ft_strdup(char *str);
+char				*ft_strdup(char *str);
 
 /*
 **	ft_strjoin.c
 */
 
-char	*ft_strjoin(char *s1, char *s2);
+char				*ft_strjoin(char *s1, char *s2);
 
 /*
 **	ft_character.c
 */
 
-int		ft_isdigit(char c);
-int		ft_issign(char c);
-int		ft_isspace(char c);
+int					ft_isdigit(char c);
+int					ft_issign(char c);
+int					ft_isspace(char c);
 
 /*
 **	ft_check_if_str_is_int.c
 */
 
-int		ft_check_if_str_is_int(char *s);
+int					ft_check_if_str_is_int(char *s);
 
 /*
 **	ft_atoi.c
 */
 
-int		ft_atoi(const char *nptr);
+int					ft_atoi(const char *nptr);
 
 /*
 **	ft_error.c
 */
 
-void	ft_print_error(char *prefix, char *msg);
-void	ft_exit_with_error_msg(char *prefix, char *msg);
+void				ft_print_error(char *prefix, char *msg);
+void				ft_exit_with_error_msg(char *prefix, char *msg);
 
 /*
 **	ft_putchar_fd.c
 */
 
-void	ft_putchar_fd(char c, int fd);
+void				ft_putchar_fd(char c, int fd);
 
 /*
 **	ft_putstr_fd.c
 */
 
-void	ft_putstr_fd(char *s, int fd);
+void				ft_putstr_fd(char *s, int fd);
 
 /*
 **	ft_putnbr_fd.c
 */
 
-void	ft_putnbr_fd(int n, int fd);
+void				ft_putnbr_fd(int n, int fd);
 
 #endif

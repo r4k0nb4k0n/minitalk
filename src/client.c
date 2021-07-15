@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:07:53 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 20:07:43 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 20:24:58 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_handle_sigusr1(int signo, siginfo_t *siginfo, void *data)
 	(void)signo;
 	(void)siginfo;
 	(void)data;
-
 	if (g_session.status == SESS_STATUS_WAIT)
 	{
 		if (*(g_session.msg))
@@ -58,7 +57,6 @@ void	ft_handle_sigusr2(int signo, siginfo_t *siginfo, void *data)
 	(void)signo;
 	(void)siginfo;
 	(void)data;
-
 	if (*(g_session.msg))
 		*(g_session.msg) -= 1;
 }
@@ -107,9 +105,6 @@ void	ft_send_str_with_signal(void)
 				ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
 			usleep(GAP_MICROSEC);
 		}
-		/*if (kill(g_session.pid, SIGUSR1) < 0)
-			ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
-		usleep(GAP_MICROSEC);*/
 	}
 }
 

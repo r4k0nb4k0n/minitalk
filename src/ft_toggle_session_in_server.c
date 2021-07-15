@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 17:52:28 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/15 17:53:08 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/15 20:23:48 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_toggle_session_in_server(pid_t pid_server, char *done_msg)
 		if (res < 0)
 			ft_exit_with_error_msg(PREFIX_CLIENT, ERR_FAILED_SIGNAL);
 		if (usleep(GAP_MICROSEC) < 0)
-			break;
+			break ;
 		ft_putstr_fd(ERR_PENDING_RESP, STDERR_FILENO);
 		i++;
 	}
