@@ -6,7 +6,7 @@
 /*   By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 20:04:22 by hyechoi           #+#    #+#             */
-/*   Updated: 2021/07/16 02:47:15 by hyechoi          ###   ########.fr       */
+/*   Updated: 2021/07/17 11:44:32 by hyechoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 **	Get include-guarded.
 */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 
 /*
 **	Include header files in need.
@@ -80,7 +80,7 @@ typedef struct s_list
 }					t_list;
 
 /*
-**	ft_lst*.c
+**	ft_lst*_bonus.c
 */
 
 t_list				*ft_lstnew(void *content);
@@ -108,74 +108,74 @@ typedef struct s_session
 # define SESS_STATUS_WAIT 1
 
 /*
-**	ft_init_session.c
+**	ft_init_session_bonus.c
 */
 
 int					ft_init_session(t_list **sessions, pid_t pid);
 
 /*
-**	ft_free_session.c
+**	ft_free_session_bonus.c
 */
 
 void				ft_free_session(void *session);
 
 /*
-**	ft_lstfind_session_pid.c
+**	ft_lstfind_session_pid_bonus.c
 */
 
 t_list				*ft_lstfind_session_pid(t_list *s, pid_t pid);
 
 /*
-**	ft_lstdelone_session_pid.c
+**	ft_lstdelone_session_pid_bonus.c
 */
 
 void				ft_lstdelone_session_pid(t_list **sessions, pid_t pid);
 
 /*
-**	ft_append_buf_to_msg_session.c
+**	ft_append_buf_to_msg_session_bonus.c
 */
 
 int					ft_append_buf_to_msg_session(t_session *session);
 
 /*
-**	ft_toggle_session_in_server.c
+**	ft_toggle_session_in_server_bonus.c
 */
 
 void				ft_toggle_session_in_server(pid_t pid_server,
 						char *done_msg);
 
 /*
-**	ft_put_client_msg.c
+**	ft_put_client_msg_bonus.c
 */
 
 void				ft_put_client_msg(pid_t pid, char *msg);
 
 /*
-**	ft_strlen.c
+**	ft_strlen_bonus.c
 */
 
 int					ft_strlen(char *s);
 
 /*
-**	ft_strlcpy.c
+**	ft_strlcpy_bonus.c
 */
 
 size_t				ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 /*
-**	ft_strdup.c
+**	ft_strdup_bonus.c
 */
 
 char				*ft_strdup(char *str);
 
 /*
-**	ft_strjoin.c
+**	ft_strjoin_bonus.c
 */
 
 char				*ft_strjoin(char *s1, char *s2);
 
 /*
-**	ft_character.c
+**	ft_character_bonus.c
 */
 
 int					ft_isdigit(char c);
@@ -183,38 +183,38 @@ int					ft_issign(char c);
 int					ft_isspace(char c);
 
 /*
-**	ft_check_if_str_is_int.c
+**	ft_check_if_str_is_int_bonus.c
 */
 
 int					ft_check_if_str_is_int(char *s);
 
 /*
-**	ft_atoi.c
+**	ft_atoi_bonus.c
 */
 
 int					ft_atoi(const char *nptr);
 
 /*
-**	ft_error.c
+**	ft_error_bonus.c
 */
 
 void				ft_print_error(char *prefix, char *msg);
 void				ft_exit_with_error_msg(char *prefix, char *msg);
 
 /*
-**	ft_putchar_fd.c
+**	ft_putchar_fd_bonus.c
 */
 
 void				ft_putchar_fd(char c, int fd);
 
 /*
-**	ft_putstr_fd.c
+**	ft_putstr_fd_bonus.c
 */
 
 void				ft_putstr_fd(char *s, int fd);
 
 /*
-**	ft_putnbr_fd.c
+**	ft_putnbr_fd_bonus.c
 */
 
 void				ft_putnbr_fd(int n, int fd);
