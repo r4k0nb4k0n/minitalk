@@ -6,7 +6,7 @@
 #    By: hyechoi <hyechoi@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 17:51:42 by hyechoi           #+#    #+#              #
-#    Updated: 2021/07/17 11:41:10 by hyechoi          ###   ########.fr        #
+#    Updated: 2021/07/17 11:59:46 by hyechoi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,10 @@ SRCS_SERVER = $(addprefix $(SRC_DIR)/, $(SRC_FILE_SERVER))
 SRCS_CLIENT = $(addprefix $(SRC_DIR)/, $(SRC_FILE_CLIENT))
 SRC_BONUS_DIR = ./src_bonus
 OBJ_BONUS_DIR = ./obj_bonus
+OBJ_FILE_SERVER = $(SRC_FILE_SERVER:.c=.o)
+OBJ_FILE_CLIENT = $(SRC_FILE_CLIENT:.c=.o)
+OBJS_SERVER = $(addprefix $(OBJ_DIR)/, $(OBJ_FILE_SERVER))
+OBJS_CLIENT = $(addprefix $(OBJ_DIR)/, $(OBJ_FILE_CLIENT))
 NAME_BONUS = server_bonus
 NAME_CLIENT_BONUS = client_bonus
 SRC_FILE_SERVER_BONUS = ft_strlen_bonus.c ft_character_bonus.c\
